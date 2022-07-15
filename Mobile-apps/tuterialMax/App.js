@@ -1,25 +1,26 @@
 
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, } from 'react-native';
-import GoalItem from './components/GoalItem'
-import GoalInput from './components/GoalInput'
-
-
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList} from 'react-native';
+// import GoalItem from './components/GoalItem'
+// import GoalInput from './components/GoalInput'
 
 export default function App() {
-
   //hook user input state
   const [ currentText, setCurrentText ] = useState( '' )
-  const [goals, setGoals] = useState([])
+  const [ goals, setGoals ] = useState( [] )
 
   //as user types in input box !!!!! WE NEED TO USE IT AS STATE SO WE USE IN ON <L14></L14>
-  function textHandler(enteredText) {
-    setCurrentText(enteredText)
+  function textHandler( enteredText ) {
+    setCurrentText( enteredText )
   }
 
   //we'll pass enterText as
   function buttonHandler() {
-    setGoals( [ ...goals, currentText ] )
+    setGoals( ( goalFunction => [ ...goalFunction,
+      {
+        text: currentText,
+        key: Math.random().toString()
+    },] ) )
   }
  <TextInput
         style={{height: 40}}
@@ -28,7 +29,8 @@ export default function App() {
       />
 
   return (
-  <View style={styles.appContainer}>
+    <View style={ styles.appContainer }>
+
 {/* container 1 - this is the top container */}
       <View>
         <View style={styles.inputContainer}>
@@ -39,14 +41,14 @@ export default function App() {
 
 {/* container 2 - this is the journal container */}
       <View style={ texts }>
-
-        { goals.map( ( goal, index ) =>
-          <View key={ index } style={ styles.goalItem } >
-            <Text >
-              { goal }
-            </Text></View> ) }
-        </View>
-
+        <FlatList data={ goals } renderItem={ itemData => {
+          return (
+            <View style={ styles.goalItem }>
+              <Text>{itemData.item.text}</Text>
+            </View>
+          )
+        } }/>
+      </View>
 {/* container 3 - this is the colored boxes */}
       <View style={ { flexDirection: "row", padding: 50 } }>
 
@@ -64,7 +66,9 @@ export default function App() {
 
       </View>
 
+
     </View>
+
   );
 }
 

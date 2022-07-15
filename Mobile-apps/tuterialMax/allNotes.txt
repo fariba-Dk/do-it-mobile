@@ -54,3 +54,7 @@ useState
 manage list using map method
 
 useState
+
+git remote add origin https://github.com/fariba-Dk/do-it-mobile.git
+git branch -M main
+git push -u origin main
