@@ -1,0 +1,56 @@
+app.json is used by expo
+App.js = functional component === ROOT Component
+
+download Expo Go
+use camera to scan barcode
+
+get emulator to see your work on local device
+
+NO <div></div>, <h1></h1>
+NO CSS
+
+StatusBar (from 'expo-status-bar)
+is a component to control the app's status bar.
+The status bar is the zone, typically at the top of the screen,
+that displays the current time, Wi-Fi and battery, etc ..
+
+<View/> is like a div, makes containers
+<Text/>
+<Button/>
+<TextInput/>
+<Image/>
+
+Inline Styles or StyleSheet Objects
+
+props: style props
+
+hook from REACT LIBRARY
+
+
+ ------  state  in React Native ---
+to be able to register a newState
+
+we call useState
+set it to " " bc initially user input state is blank
+or my currentText  which
+gets updated to setCurrentText
+
+So:
+first we have currentText which is ''
+with every key stroke we updated
+
+const[currentText, setCurrentText] = useState('')
+
+function textHandler(enteredText) {    ***** enteredText *****
+    setCurrentText(enteredText)
+  }
+
+we'll pass enterText as
+  function buttonHandler() {
+    console.log(currentText)
+
+useState
+
+manage list using map method
+
+useState
