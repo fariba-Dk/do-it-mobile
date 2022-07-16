@@ -1,147 +1,86 @@
-
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList} from 'react-native';
-// import GoalItem from './components/GoalItem'
-// import GoalInput from './components/GoalInput'
+import { StyleSheet, View, FlatList, Button } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+
+import Item from './components/Item';
+import Input from './components/Input';
 
 export default function App() {
-  //hook user input state
-  const [ currentText, setCurrentText ] = useState( '' )
-  const [ goals, setGoals ] = useState( [] )
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [courseGoals, setCourseGoals] = useState([]);
 
-  //as user types in input box !!!!! WE NEED TO USE IT AS STATE SO WE USE IN ON <L14></L14>
-  function textHandler( enteredText ) {
-    setCurrentText( enteredText )
+  function startAddGoalHandler() {
+    setModalIsVisible(true);
   }
 
-  //we'll pass enterText as
-  function buttonHandler() {
-    setGoals( ( goalFunction => [ ...goalFunction,
-      {
-        text: currentText,
-        key: Math.random().toString()
-    },] ) )
+  function endAddGoalHandler() {
+    setModalIsVisible(false);
   }
- <TextInput
-        style={{height: 40}}
-        placeholder="Type here to translate!"
-        onChangeText={newText => setText(newText)}
-      />
+
+  function addGoalHandler(enteredGoalText) {
+    setCourseGoals((currentCourseGoals) => [
+      ...currentCourseGoals,
+      { text: enteredGoalText, id: Math.random().toString() },
+    ]);
+    endAddGoalHandler();
+  }
+
+  function deleteGoalHandler(id) {
+    setCourseGoals((currentCourseGoals) => {
+      return currentCourseGoals.filter((goal) => goal.id !== id);
+    });
+  }
 
   return (
-    <View style={ styles.appContainer }>
+    <>
+      <StatusBar style="light" />
+      <View style={ styles.appContainer }>
 
-{/* container 1 - this is the top container */}
-      <View>
-        <View style={styles.inputContainer}>
-          <TextInput style={styles.textInput} placeholder='Enter text' onChangeText={textHandler} />
-          <Button title="Add notes" onPress={buttonHandler}/>
+      <View style={styles.button}>
+        <Button
+            title="View                                    Return"
+            color="purple"
+            onPress={startAddGoalHandler}
+          />
+        </View>
+
+
+        <Input
+          visible={modalIsVisible}
+          onAddGoal={addGoalHandler}
+          onCancel={endAddGoalHandler}
+        />
+        <View style={styles.goalsContainer}>
+          <FlatList
+            data={courseGoals}
+            renderItem={(itemData) => {
+              return (
+                <Item
+                  text={itemData.item.text}
+                  id={itemData.item.id}
+                  onDeleteItem={deleteGoalHandler}
+                />
+              );
+            }}
+            keyExtractor={(item, index) => {
+              return item.id;
+            }}
+            alwaysBounceVertical={false}
+          />
         </View>
       </View>
-
-{/* container 2 - this is the journal container */}
-      <View style={ texts }>
-        <FlatList data={ goals } renderItem={ itemData => {
-          return (
-            <View style={ styles.goalItem }>
-              <Text>{itemData.item.text}</Text>
-            </View>
-          )
-        } }/>
-      </View>
-{/* container 3 - this is the colored boxes */}
-      <View style={ { flexDirection: "row", padding: 50 } }>
-
-        <View style={ colors.top }>
-          <Text>1</Text>
-        </View>
-
-        <View style={ colors.mid }>
-          <Text>2</Text>
-        </View>
-
-        <View style={ colors.down }>
-          <Text>3</Text>
-        </View>
-
-      </View>
-
-
-    </View>
-
+    </>
   );
 }
 
-const styles = StyleSheet.create( {
-  goalItem: {
-    margin: 8,
-    padding: 3,
-    borderRadius:6,
-    backgroundColor: "pink",
-  },
+const styles = StyleSheet.create({
   appContainer: {
-     flex:1,
+    flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
-    padding: 50,
-    color:'blue',
+    backgroundColor: 'aqua',
   },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor:'gray',
-    },
-
-  textInput: {
-    borderWidth: 1,
-    borderColor: 'cccccc',
-    width: '60%',
-    marginRight: 8,
-    padding: 8,
-    justifyContent:'center'
-
+  goalsContainer: {
+    flex: 5,
   },
-})
-
-
-const texts = StyleSheet.create( {
-  padding: 10,
-  backgroundColor: 'white',
-  justifyContent: 'center',
-  borderBottomColor: 'gray',
-  borderBottomWidth: 1,
-  flex:1,
-})
-
-const colors = StyleSheet.create( {
-  flex:1,
-  padding: 50,
-  flexDirection: 'row',
-  justifyContent:"center",
-  top: {
-    backgroundColor: 'red',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  mid: {
-    backgroundColor: 'green',
-    height: 100,
-    width: 100,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  down: {
-    backgroundColor: 'blue',
-    height: 100,
-    width: 100,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-
-
 })

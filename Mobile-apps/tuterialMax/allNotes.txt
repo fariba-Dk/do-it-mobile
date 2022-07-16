@@ -32,22 +32,22 @@ to be able to register a newState
 
 we call useState
 set it to " " bc initially user input state is blank
-or my currentText  which
-gets updated to setCurrentText
+or my journalEntered  which
+gets updated to setJournalEntered
 
 So:
-first we have currentText which is ''
+first we have journalEntered which is ''
 with every key stroke we updated
 
-const[currentText, setCurrentText] = useState('')
+const[journalEntered, setJournalEntered] = useState('')
 
 function textHandler(enteredText) {    ***** enteredText *****
-    setCurrentText(enteredText)
+    setJournalEntered(enteredText)
   }
 
 we'll pass enterText as
   function buttonHandler() {
-    console.log(currentText)
+    console.log(journalEntered)
 
 useState
 
@@ -58,3 +58,12 @@ useState
 git remote add origin https://github.com/fariba-Dk/do-it-mobile.git
 git branch -M main
 git push -u origin main
+
+FlatList is a self closing component
+<FlatList data={} renderItem={function how to run individule item}/>
+
+renderItem={item=>{
+  return jsx that code that should be rendered
+}}
+
+itemData contains metadata is an obj
