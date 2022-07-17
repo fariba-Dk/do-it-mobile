@@ -25,8 +25,8 @@ function Input(props) {
       <View style={styles.inputContainer}>
         <Image
           style={styles.image}
-          source={ require( '../assets/image/journal.png' ) }
-          //tuterialMax/assets/image/journal.png
+          source={ require( '../assets/image/crossed-list.png') }
+          //tuterialMax/assets/image/
         />
         <TextInput
           style={styles.textInput}
